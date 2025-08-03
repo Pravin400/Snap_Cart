@@ -144,7 +144,7 @@ function App() {
         return (
           <Box sx={{ textAlign: 'center', py: 8 }}>
             <h2>Help & Support</h2>
-            <p>Contact us at support@sitmax.com or call 1-800-SITMAX</p>
+            <p>Contact us at <a href="#">SITMAX123@gmail.com</a> or call: <a href="#">+91 82xxx91xxx</a></p>
           </Box>
         );
       default:
