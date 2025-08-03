@@ -63,11 +63,11 @@ function App() {
   const handleNavigation = (page, options = {}) => {
     if (page === 'shop' && options.category) {
       setCategoryFilter(options.category);
-      setSearchQuery(''); // Clear search when filtering by category
+      setSearchQuery(''); 
     } else {
       setCategoryFilter(null);
       if (page !== 'shop') {
-        setSearchQuery(''); // Clear search when leaving shop page
+        setSearchQuery(''); 
       }
     }
     setCurrentPage(page);
@@ -113,7 +113,7 @@ function App() {
 
   const handleSearch = (query) => {
     setSearchQuery(query);
-    setCategoryFilter(null); // Clear category filter when searching
+    setCategoryFilter(null); 
     setCurrentPage('shop');
   };
 
