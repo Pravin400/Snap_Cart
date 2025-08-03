@@ -13,7 +13,6 @@ import {
   Link
 } from '@mui/material';
 import { 
-  ArrowBack, 
   ShoppingCart, 
   LocalShipping, 
   Favorite,
@@ -21,6 +20,7 @@ import {
 } from '@mui/icons-material';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContent';
+import BackButton from '../components/common/BackButton';
 
 const ProductDetailPage = ({ product, onBack, onBuyNow }) => {
   const { addToCart } = useCart();
@@ -53,21 +53,12 @@ const ProductDetailPage = ({ product, onBack, onBuyNow }) => {
   };
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4, px: { xs: 2, md: 4 } }}>
-      {/* Back Button and Breadcrumbs */}
+    <Container maxWidth="lg" sx={{ py: 4, px: { xs: 2, md: 4 }, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {/* Fixed Back Button - Top Left Corner */}
+      <BackButton onClick={onBack} position="fixed" top={80} left={20} />
+      
+      {/* Breadcrumbs */}
       <Box sx={{ mb: 3 }}>
-        <IconButton 
-          onClick={onBack}
-          sx={{ 
-            mb: 2,
-            backgroundColor: 'rgba(25, 118, 210, 0.1)',
-            '&:hover': {
-              backgroundColor: 'rgba(25, 118, 210, 0.2)'
-            }
-          }}
-        >
-          <ArrowBack />
-        </IconButton>
         
         <Breadcrumbs>
           <Link 
@@ -83,19 +74,25 @@ const ProductDetailPage = ({ product, onBack, onBuyNow }) => {
       </Box>
 
       <Grid container spacing={4}>
-        {/* Product Image */}
+        {/* Fixed Product Image Area */}
         <Grid item xs={12} md={5}>
           <Box
             sx={{
-              height: { xs: '400px', md: '500px' },
+              width: '100%',
+              height: 500,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               backgroundColor: '#fff',
               borderRadius: 2,
               p: 3,
-              border: '1px solid #e0e0e0',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+              border: '2px solid #f1f5f9',
+              boxShadow: '0 8px 25px rgba(99, 102, 241, 0.1)',
+              transition: 'all 0.3s ease-in-out',
+              '&:hover': {
+                borderColor: 'rgba(99, 102, 241, 0.3)',
+                boxShadow: '0 12px 30px rgba(99, 102, 241, 0.15)'
+              }
             }}
           >
             <Box
@@ -103,9 +100,12 @@ const ProductDetailPage = ({ product, onBack, onBuyNow }) => {
               src={product.image}
               alt={product.title}
               sx={{
-                maxWidth: '100%',
-                maxHeight: '100%',
-                objectFit: 'contain'
+                maxWidth: '350px',
+                maxHeight: '400px',
+                width: 'auto',
+                height: 'auto',
+                objectFit: 'contain',
+                transition: 'transform 0.3s ease-in-out'
               }}
             />
           </Box>
@@ -193,8 +193,11 @@ const ProductDetailPage = ({ product, onBack, onBuyNow }) => {
                     textTransform: 'none',
                     fontWeight: 600,
                     borderWidth: 2,
+                    transition: 'all 0.2s ease-in-out',
                     '&:hover': {
-                      borderWidth: 2
+                      borderWidth: 2,
+                      transform: 'translateY(-1px)',
+                      boxShadow: '0 4px 12px rgba(99, 102, 241, 0.2)'
                     }
                   }}
                 >
@@ -210,9 +213,12 @@ const ProductDetailPage = ({ product, onBack, onBuyNow }) => {
                     fontSize: '1rem',
                     textTransform: 'none',
                     fontWeight: 600,
-                    background: 'linear-gradient(45deg, #1976d2, #42a5f5)',
+                    background: 'linear-gradient(45deg, #6366f1, #8b89f8)',
+                    transition: 'all 0.2s ease-in-out',
                     '&:hover': {
-                      background: 'linear-gradient(45deg, #1565c0, #1976d2)'
+                      background: 'linear-gradient(45deg, #4f46e5, #6366f1)',
+                      transform: 'translateY(-1px)',
+                      boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)'
                     }
                   }}
                 >
@@ -227,10 +233,12 @@ const ProductDetailPage = ({ product, onBack, onBuyNow }) => {
                   variant="text"
                   startIcon={isInWishlist(product.id) ? <Favorite /> : <FavoriteBorder />}
                   sx={{
-                    color: isInWishlist(product.id) ? 'red' : 'gray',
+                    color: isInWishlist(product.id) ? '#ef4444' : 'gray',
+                    transition: 'all 0.2s ease-in-out',
                     '&:hover': {
-                      color: 'red',
-                      backgroundColor: 'rgba(255, 0, 0, 0.1)'
+                      color: '#ef4444',
+                      backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                      transform: 'scale(1.02)'
                     }
                   }}
                 >
@@ -242,8 +250,8 @@ const ProductDetailPage = ({ product, onBack, onBuyNow }) => {
         </Grid>
       </Grid>
 
-      {/* Bottom Content - Below the image */}
-      <Box sx={{ mt: 4 }}>
+      {/* Bottom Content - Center the content */}
+      <Box sx={{ mt: 4, width: '100%', display: 'flex', justifyContent: 'center' }}>
         <Grid container spacing={4}>
           <Grid item xs={12}>
             <Divider sx={{ mb: 4 }} />

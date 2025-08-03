@@ -47,8 +47,9 @@ const ProductCard = ({ product, onViewDetails, onBuyNow }) => {
   return (
     <Card 
       sx={{ 
-        width: 280,
-        height: 420,
+        width: { xs: '100%', sm: 280 },
+        height: { xs: 380, sm: 420 },
+        maxWidth: 320,
         display: 'flex',
         flexDirection: 'column',
         transition: 'all 0.3s ease-in-out',
@@ -57,11 +58,14 @@ const ProductCard = ({ product, onViewDetails, onBuyNow }) => {
         overflow: 'hidden',
         margin: '0 auto',
         '&:hover': {
-          transform: 'translateY(-8px)',
-          boxShadow: '0 12px 40px rgba(0,0,0,0.15)',
+          transform: 'translateY(-4px)',
+          boxShadow: '0 8px 25px rgba(139, 92, 246, 0.15)',
           '& .product-actions': {
             opacity: 1,
             transform: 'translateY(0)'
+          },
+          '& .product-image': {
+            transform: 'scale(1.02)'
           }
         }
       }}
@@ -75,10 +79,12 @@ const ProductCard = ({ product, onViewDetails, onBuyNow }) => {
           right: 8,
           zIndex: 2,
           backgroundColor: 'rgba(255, 255, 255, 0.9)',
-          color: isInWishlist(product.id) ? 'red' : 'gray',
+          color: isInWishlist(product.id) ? '#ef4444' : 'gray',
+          transition: 'all 0.2s ease-in-out',
           '&:hover': {
             backgroundColor: 'rgba(255, 255, 255, 1)',
-            color: 'red'
+            color: '#ef4444',
+            transform: 'scale(1.1)'
           }
         }}
         onClick={handleWishlistToggle}
@@ -88,12 +94,13 @@ const ProductCard = ({ product, onViewDetails, onBuyNow }) => {
 
       <CardMedia
         component="img"
+        className="product-image"
         sx={{
           height: 180,
           objectFit: 'contain',
           padding: '16px',
           backgroundColor: '#fafafa',
-          transition: 'transform 0.3s ease'
+          transition: 'transform 0.3s ease-in-out'
         }}
         image={product.image}
         alt={product.title}
@@ -109,7 +116,7 @@ const ProductCard = ({ product, onViewDetails, onBuyNow }) => {
               textTransform: 'capitalize',
               fontSize: '0.75rem',
               height: 24,
-              backgroundColor: 'rgba(25, 118, 210, 0.1)',
+              backgroundColor: 'rgba(139, 92, 246, 0.1)',
               color: 'primary.main',
               borderColor: 'primary.main'
             }}
@@ -179,7 +186,15 @@ const ProductCard = ({ product, onViewDetails, onBuyNow }) => {
             size="small"
             variant="outlined"
             onClick={handleBuyNow}
-            sx={{ flex: 1, textTransform: 'none' }}
+            sx={{ 
+              flex: 1, 
+              textTransform: 'none',
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                transform: 'translateY(-1px)',
+                boxShadow: '0 2px 8px rgba(139, 92, 246, 0.2)'
+              }
+            }}
           >
             Buy Now
           </Button>
@@ -188,7 +203,15 @@ const ProductCard = ({ product, onViewDetails, onBuyNow }) => {
             variant="contained"
             startIcon={<ShoppingCart />}
             onClick={handleAddToCart}
-            sx={{ flex: 1, textTransform: 'none' }}
+            sx={{ 
+              flex: 1, 
+              textTransform: 'none',
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                transform: 'translateY(-1px)',
+                boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)'
+              }
+            }}
           >
             Add to Cart
           </Button>

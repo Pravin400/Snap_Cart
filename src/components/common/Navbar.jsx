@@ -19,20 +19,19 @@ import {
   Store,
   Menu as MenuIcon,
   KeyboardArrowDown,
-  Favorite,
-  Search
+  Favorite
 } from '@mui/icons-material';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContent';
+import SmartSearch from './SmartSearch';
 
-const Navbar = ({ onNavigate, onCartClick, currentPage, onSearch }) => {
+const Navbar = ({ onNavigate, onCartClick, currentPage, onSearch, onWishlistClick }) => {
   const { totalItems } = useCart();
   const { totalItems: wishlistItems } = useWishlist();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [categoryAnchor, setCategoryAnchor] = useState(null);
   const [mobileMenuAnchor, setMobileMenuAnchor] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
 
   const categories = [
     { id: 'electronics', name: 'Electronics' },
@@ -60,18 +59,6 @@ const Navbar = ({ onNavigate, onCartClick, currentPage, onSearch }) => {
 
   const handleMobileMenuClose = () => {
     setMobileMenuAnchor(null);
-  };
-
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-    if (searchQuery.trim() && onSearch) {
-      onSearch(searchQuery.trim());
-      onNavigate('shop');
-    }
   };
 
   const navItems = [
@@ -105,21 +92,44 @@ const Navbar = ({ onNavigate, onCartClick, currentPage, onSearch }) => {
             <MenuIcon />
           </IconButton>
           
-          <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+          <Box 
+            sx={{ display: 'flex', alignItems: 'center', flexGrow: 1, cursor: 'pointer' }}
+            onClick={() => onNavigate('home')}
+          >
             <Store sx={{ mr: 1, color: theme.palette.primary.main }} />
             <Typography
               variant="h6"
               sx={{ 
                 fontWeight: 700,
-                background: 'linear-gradient(45deg, #1976d2, #42a5f5)',
+                background: 'linear-gradient(45deg, #8b5cf6, #c4b5fd)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
+                WebkitTextFillColor: 'transparent',
+                transition: 'all 0.2s ease-in-out',
+                '&:hover': {
+                  transform: 'scale(1.05)'
+                }
               }}
             >
               SITMAX
             </Typography>
           </Box>
+
+          <IconButton 
+            onClick={onWishlistClick} 
+            sx={{ 
+              color: 'black',
+              mr: 1,
+              '&:hover': {
+                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                color: '#ef4444'
+              }
+            }}
+          >
+            <Badge badgeContent={wishlistItems} color="error">
+              <Favorite />
+            </Badge>
+          </IconButton>
 
           <IconButton onClick={onCartClick} sx={{ color: 'black' }}>
             <Badge badgeContent={totalItems} color="error">
@@ -161,17 +171,24 @@ const Navbar = ({ onNavigate, onCartClick, currentPage, onSearch }) => {
       }}
     >
       <Toolbar sx={{ justifyContent: 'space-between', px: { xs: 2, md: 4 } }}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box 
+          sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+          onClick={() => onNavigate('home')}
+        >
           <Store sx={{ mr: 1, color: theme.palette.primary.main, fontSize: 32 }} />
           <Typography
             variant="h5"
             sx={{ 
               fontWeight: 700,
-              background: 'linear-gradient(45deg, #1976d2, #42a5f5)',
+              background: 'linear-gradient(45deg, #8b5cf6, #c4b5fd)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              letterSpacing: '1px'
+              letterSpacing: '1px',
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                transform: 'scale(1.05)'
+              }
             }}
           >
             SITMAX
@@ -191,7 +208,7 @@ const Navbar = ({ onNavigate, onCartClick, currentPage, onSearch }) => {
                 textTransform: 'none',
                 letterSpacing: '0.5px',
                 '&:hover': {
-                  backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                  backgroundColor: 'rgba(139, 92, 246, 0.1)',
                   color: theme.palette.primary.main
                 }
               }}
@@ -200,43 +217,16 @@ const Navbar = ({ onNavigate, onCartClick, currentPage, onSearch }) => {
             </Button>
           ))}
           
-          {/* Search Bar */}
-          <Box component="form" onSubmit={handleSearchSubmit} sx={{ display: 'flex' }}>
-            <TextField
-              size="small"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-              sx={{
-                minWidth: 250,
-                backgroundColor: 'white',
-                borderRadius: 1,
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: 1
-                }
-              }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton 
-                      type="submit" 
-                      size="small"
-                      sx={{ color: 'primary.main' }}
-                    >
-                      <Search />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
-            />
-          </Box>
+          {/* Smart Search Bar */}
+          <SmartSearch onSearch={onSearch} onNavigate={onNavigate} />
 
           <IconButton 
+            onClick={onWishlistClick}
             sx={{ 
               color: 'black',
               '&:hover': {
-                backgroundColor: 'rgba(25, 118, 210, 0.1)',
-                color: 'red'
+                backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                color: '#ef4444'
               }
             }}
           >
@@ -250,7 +240,7 @@ const Navbar = ({ onNavigate, onCartClick, currentPage, onSearch }) => {
             sx={{ 
               color: 'black',
               '&:hover': {
-                backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                backgroundColor: 'rgba(139, 92, 246, 0.1)',
                 color: theme.palette.primary.main
               }
             }}
@@ -280,7 +270,7 @@ const Navbar = ({ onNavigate, onCartClick, currentPage, onSearch }) => {
               sx={{ 
                 minWidth: 180,
                 '&:hover': {
-                  backgroundColor: 'rgba(25, 118, 210, 0.1)'
+                  backgroundColor: 'rgba(139, 92, 246, 0.1)'
                 }
               }}
             >

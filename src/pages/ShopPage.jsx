@@ -15,8 +15,9 @@ import ProductCard from '../components/shop/ProductCard';
 import ProductModal from '../components/shop/ProductModal';
 import Loading from '../components/Loading';
 import { productAPI } from '../services/api';
+import BackButton from '../components/common/BackButton';
 
-const ShopPage = ({ category, searchQuery, onBuyNow, onProductDetail }) => {
+const ShopPage = ({ category, searchQuery, onBuyNow, onProductDetail, onBackToHome }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -134,7 +135,9 @@ const ShopPage = ({ category, searchQuery, onBuyNow, onProductDetail }) => {
   };
 
   return (
-    <Container maxWidth="xl" sx={{ py: 4, px: { xs: 2, md: 4 }, width: '100%' }}>
+    <>
+      <BackButton onClick={onBackToHome} position="fixed" top={80} left={20} />
+      <Container maxWidth="xl" sx={{ py: 4, px: { xs: 2, md: 4 }, width: '100%' }}>
       <Fade in={true} timeout={800}>
         <Box sx={{ width: '100%' }}>
           {/* Header */}
@@ -145,7 +148,7 @@ const ShopPage = ({ category, searchQuery, onBuyNow, onProductDetail }) => {
               gutterBottom
               sx={{ 
                 fontWeight: 700,
-                background: 'linear-gradient(45deg, #1976d2, #42a5f5)',
+                background: 'linear-gradient(45deg, #8b5cf6, #06b6d4)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent'
@@ -162,7 +165,7 @@ const ShopPage = ({ category, searchQuery, onBuyNow, onProductDetail }) => {
           </Box>
 
           {/* Category Filter */}
-          <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center', pr: { xs: 0, md: 8 } }}>
             <Box>
               <Chip
                 label={`${filteredProducts.length} Products`}
@@ -228,7 +231,7 @@ const ShopPage = ({ category, searchQuery, onBuyNow, onProductDetail }) => {
                 }}
               >
                 {filteredProducts.map((product, index) => (
-                  <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
+                  <Grid item xs={12} sm={6} md={4} lg={3} xl={2.4} key={product.id}>
                     <Fade in={true} timeout={800} style={{ transitionDelay: `${index * 100}ms` }}>
                       <div>
                         <ProductCard 
@@ -254,6 +257,7 @@ const ShopPage = ({ category, searchQuery, onBuyNow, onProductDetail }) => {
         </Box>
       </Fade>
     </Container>
+    </>
   );
 };
 

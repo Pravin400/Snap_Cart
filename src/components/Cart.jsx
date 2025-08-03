@@ -21,6 +21,7 @@ import {
   Close
 } from '@mui/icons-material';
 import { useCart } from '../context/CartContext';
+import BackButton from './common/BackButton';
 
 const Cart = ({ open, onClose, onBuyNow }) => {
   const {
@@ -53,17 +54,19 @@ const Cart = ({ open, onClose, onBuyNow }) => {
   };
 
   return (
-    <Drawer
-      anchor="right"
-      open={open}
-      onClose={onClose}
-      PaperProps={{
-        sx: {
-          width: { xs: '100%', sm: 400 },
-          padding: 2
-        }
-      }}
-    >
+    <>
+      {open && <BackButton onClick={onClose} position="fixed" top={80} left={20} />}
+      <Drawer
+        anchor="right"
+        open={open}
+        onClose={onClose}
+        PaperProps={{
+          sx: {
+            width: { xs: '100%', sm: 400 },
+            padding: 2
+          }
+        }}
+      >
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
         <Typography variant="h5" component="h2" sx={{ fontWeight: 600 }}>
           <ShoppingCart sx={{ mr: 1, verticalAlign: 'middle' }} />
@@ -230,6 +233,7 @@ const Cart = ({ open, onClose, onBuyNow }) => {
         </>
       )}
     </Drawer>
+    </>
   );
 };
 

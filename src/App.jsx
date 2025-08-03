@@ -8,16 +8,40 @@ import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CheckoutPage from './pages/CheckoutPage';
+import WishlistPage from './pages/WishlistPage';
 import Cart from './components/Cart';
+import BackButton from './components/common/BackButton';
 
-// Create MUI theme
+// Create stunning beautiful color scheme - Sexy & Attractive
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#1976d2',
+      main: '#8b5cf6', // Beautiful Purple - Magical brand color
+      dark: '#7c3aed',
+      light: '#c4b5fd',
     },
     secondary: {
-      main: '#dc004e',
+      main: '#f59e0b', // Golden Amber - Luxury accent
+      dark: '#d97706',
+      light: '#fbbf24',
+    },
+    info: {
+      main: '#06b6d4', // Electric Cyan - Modern tech color
+      dark: '#0891b2',
+      light: '#67e8f9',
+    },
+    success: {
+      main: '#10b981', // Emerald Success
+    },
+    warning: {
+      main: '#f59e0b', // Golden Warning
+    },
+    error: {
+      main: '#ef4444', // Vibrant Red
+    },
+    background: {
+      default: '#fafafa',
+      paper: '#ffffff',
     },
   },
   typography: {
@@ -77,6 +101,10 @@ function App() {
     setCartOpen(!cartOpen);
   };
 
+  const handleWishlistClick = () => {
+    setCurrentPage('wishlist');
+  };
+
   const handleCartClose = () => {
     setCartOpen(false);
   };
@@ -128,6 +156,7 @@ function App() {
             searchQuery={searchQuery}
             onBuyNow={handleBuyNow}
             onProductDetail={handleProductDetail}
+            onBackToHome={() => handleNavigation('home')}
           />
         );
       case 'product-detail':
@@ -140,12 +169,23 @@ function App() {
         );
       case 'checkout':
         return <CheckoutPage onOrderComplete={handleOrderComplete} />;
+      case 'wishlist':
+        return (
+          <WishlistPage 
+            onBuyNow={handleBuyNow}
+            onProductDetail={handleProductDetail}
+            onBackToShop={() => handleNavigation('shop')}
+          />
+        );
       case 'help':
         return (
-          <Box sx={{ textAlign: 'center', py: 8 }}>
-            <h2>Help & Support</h2>
-            <p>Contact us at <a href="#">SITMAX123@gmail.com</a> or call: <a href="#">+91 82xxx91xxx</a></p>
-          </Box>
+          <>
+            <BackButton onClick={() => handleNavigation('home')} position="fixed" top={80} left={20} />
+            <Box sx={{ textAlign: 'center', py: 8 }}>
+              <h2>Help & Support</h2>
+              <p>Contact us at <a href="#">SITMAX123@gmail.com</a> or call: <a href="#">+91 82xxx91xxx</a></p>
+            </Box>
+          </>
         );
       default:
         return <HomePage onShopNow={handleNavigation} />;
@@ -160,13 +200,14 @@ function App() {
           <Box sx={{ 
             minHeight: '100vh', 
             width: '100vw',
-            backgroundColor: '#fafafa',
+          background: 'linear-gradient(135deg, #faf5ff 0%, #f3e8ff 50%, #fef3c7 100%)',
             display: 'flex',
             flexDirection: 'column'
           }}>
           <Navbar 
             onNavigate={handleNavigation}
             onCartClick={handleCartToggle}
+            onWishlistClick={handleWishlistClick}
             onSearch={handleSearch}
             currentPage={currentPage}
           />
